@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack",
-    "prod": "webpack -p"
+    "prod": "webpack -p",
+    "server": "webpack-dev-server --progress --colors"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "babel-preset-es2015": "^6.0.12",
     "babel-preset-react": "^6.0.15",
     "uglify-loader": "^1.3.0",
-    "webpack": "^1.12.1"
+    "webpack": "^1.12.1",
+    "webpack-dev-server": "^1.14.0"
   }
 }

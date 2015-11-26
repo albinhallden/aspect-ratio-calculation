@@ -115,7 +115,7 @@ var InitialForm = React.createClass({
   render: function(){
     return (
       <div className="initial-form well">
-        <h2>Input base dimensions</h2>
+        <h2>Input aspect ratio</h2>
         <div>
           <label htmlFor="input1">Width</label>
           <input 
