@@ -91,7 +91,7 @@ var FormContainer = React.createClass({
     var lcd = this.greatestCommonDivisor([this.state.valueW, this.state.valueH]);
     var lcdInfo = (
       <p>
-        Least common devider: {this.state.valueW / lcd} : {this.state.valueH / lcd}
+        Least common divider: {this.state.valueW / lcd} : {this.state.valueH / lcd}
       </p>
     );
     return (
