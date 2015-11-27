@@ -25,10 +25,72 @@ var AspectRatioForm = React.createClass({
 var FormContainer = React.createClass({
   getInitialState: function() {
     return {
-      valueW: 1920,
-      valueH: 1080,
+      valueW: 4,
+      valueH: 3,
       calcW: null,
-      calcH: null
+      calcH: null,
+      presets: [
+        {
+          name: 'Select preset'
+        },
+        {
+          name: '1:1',
+          width: 1,
+          height: 1
+        },
+        {
+          name: '3:2 (landscape)',
+          width: 3,
+          height: 2
+        },
+        {
+          name: '2:3 (portrait)',
+          width: 2,
+          height: 3
+        },
+        {
+          name: '4:3 (landscape)',
+          width: 4,
+          height: 3
+        },
+        {
+          name: '3:4 (portrait)',
+          width: 3,
+          height: 4
+        },
+        {
+          name: '16:9 (landscape)',
+          width: 16,
+          height: 9
+        },
+        {
+          name: '9:16 (portrait)',
+          width: 9,
+          height: 16
+        },
+        {
+          name: '21:9 (landscape)',
+          width: 21,
+          height: 9
+        },
+        {
+          name: '21:9 (portrait)',
+          width: 9,
+          height: 21
+        }
+      ]
+    }
+  },
+  onPresetSelection: function(event) {
+    var index = parseInt(event.target.value, 10);
+    if (index !== 0) {
+      var data = this.state.presets[index];
+      this.setState({
+        valueW: data.width,
+        valueH: data.height,
+        calcW: null,
+        calcH: null
+      });
     }
   },
   updateBase: function(event){
@@ -100,28 +162,84 @@ var FormContainer = React.createClass({
           onValueChanged={this.updateBase} 
           valueW={this.state.valueW}
           valueH={this.state.valueH}
-          ratioInfo={ratioInfo} />
+          ratioInfo={ratioInfo}
+          presets={this.state.presets}
+          onPresetSelection={this.onPresetSelection} />
         <ResultForm 
           onValueChanged={this.calculate}
           calcW={this.state.calcW}
           calcH={this.state.calcH}
           lcdInfo={lcdInfo} />
-      </div>  
+        <PreviewModel 
+          width={this.state.valueW}
+          height={this.state.valueH} />
+      </div>
+    );
+  }
+});
+
+var PreviewModel = React.createClass({
+  render: function(){
+    var width = this.props.width;
+    var height = this.props.height;
+    var percentWidth = 100;
+    var percentHeight = 100;
+
+    if (width > height) {
+      percentHeight = 100 / width * height;
+    } else {
+      percentWidth = 100 / height * width;
+    }
+
+    var styleString = {
+      width: percentWidth + '%',
+      height: percentHeight + '%'
+    }
+
+    return (
+      <div className="well preview-model">
+        <div className="preview-model__container">
+          <div 
+            className="preview-model__model"
+            style={styleString}>
+            <span className="preview-model__text">
+              {this.props.width}:{this.props.height}
+            </span>
+          </div>
+        </div>
+      </div>
     );
   }
 });
 
 var InitialForm = React.createClass({
   render: function(){
+    var options = [];
+    for (var i = 0; i < this.props.presets.length; i++) {
+      var option = this.props.presets[i];
+      options.push(
+        <option value={i} key={i}>{option.name}</option>
+      );
+    }
+
     return (
       <div className="initial-form well">
         <h2>Input aspect ratio</h2>
+        <div>
+          <select 
+            onChange={this.props.onPresetSelection}
+            className="form-control"
+          >
+            {options}
+          </select>
+        </div>
         <div>
           <label htmlFor="input1">Width</label>
           <input 
             type="number" 
             id="input1"
             ref="input1"
+            className="form-control"
             onChange={this.props.onValueChanged} 
             value={this.props.valueW} 
           />
@@ -132,6 +250,7 @@ var InitialForm = React.createClass({
             type="number" 
             id="input2"
             ref="input2"
+            className="form-control"
             onChange={this.props.onValueChanged} 
             value={this.props.valueH} 
           />
@@ -154,6 +273,7 @@ var ResultForm = React.createClass({
             type="number" 
             id="input3"
             ref="input3"
+            className="form-control"
             onChange={this.props.onValueChanged} 
             value={this.props.calcW} 
           />
@@ -164,12 +284,13 @@ var ResultForm = React.createClass({
             type="number" 
             id="input4"
             ref="input4"
+            className="form-control"
             onChange={this.props.onValueChanged} 
             value={this.props.calcH} 
           />
         </div>
         {this.props.lcdInfo}
-      </div>  
+      </div>
     );
   }
 });
