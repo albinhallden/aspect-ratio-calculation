@@ -1,9 +1,15 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
  
+const outputFolder = path.join(__dirname, 'docs');
+
 module.exports = {
   entry: './main.js',
-  output: { path: __dirname, filename: 'bundle.js' },
+  output: { 
+    path: outputFolder, 
+    filename: 'bundle.js' 
+  },
   module: {
     loaders: [
       {
@@ -16,4 +22,16 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, 'index.html'),
+        to: outputFolder,
+      },
+      {
+        from: path.join(__dirname, 'style.css'),
+        to: outputFolder,
+      }
+    ])
+  ]
 };

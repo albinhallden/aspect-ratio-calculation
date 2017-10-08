@@ -4,7 +4,7 @@ Project build with webpack and react.
 
 ## Project purpose
 
-The project is a aspect ratio calculator. 
+The project is an aspect ratio calculator. 
 
 ### How do I get set up? ###
 
