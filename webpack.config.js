@@ -25,10 +25,6 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: path.join(__dirname, 'index.html'),
-        to: outputFolder,
-      },
-      {
         from: path.join(__dirname, 'style.css'),
         to: outputFolder,
       }
